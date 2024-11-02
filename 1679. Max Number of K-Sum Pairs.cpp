@@ -1,23 +1,25 @@
 class Solution {
 public:
-    int maxArea(vector<int>& height) {
+    int maxOperations(vector<int>& nums, int k) {
+        int count = 0; 
         int left = 0; 
-        int right  = height.size()-1;
-        int max_area  = 0;
+        int right = nums.size() - 1;
 
-        while(left<right){
-            int width  = right-left;
-            int height_min = min(height[left],height[right]);
-            int area =width * height_min;
+        // Sort the array to use two-pointer technique
+        sort(nums.begin(), nums.end());
 
-            max_area = max(max_area,area);
-            if(height[left]<height[right]){
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum == k) {
+                count++;
+                left++;
+                right--;
+            } else if (sum > k) {
+                right--;
+            } else {
                 left++;
             }
-            else{
-                right--;
-            }
         }
-        return max_area;
+        return count;
     }
 };
